@@ -197,6 +197,14 @@ public class HomeController {
 
         return list;
     }
+
+    @GetMapping("/home/returnAddPerson")
+    @ResponseBody
+    public String showAddPerson(String name, int age) {
+        Person p = new Person(name, age);
+
+        return "%d번 사람이 추가되었습니다." .formatted(p.getId());
+    }
 }
 
 class Car {
@@ -242,4 +250,20 @@ class CarV2 {
     private String name; //final 은 Setter 생성 불가
 
     private final List<Integer> relatedIds;
+}
+
+@AllArgsConstructor
+@Getter
+class Person {
+    private static int lastId;
+    private final int id;
+    private final String name;
+    private final int age;
+    static {
+        lastId = 0;
+    }
+    Person(String name, int age){
+        this(++lastId, name, age);
+    }
+
 }
